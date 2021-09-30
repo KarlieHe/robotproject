@@ -7,13 +7,13 @@ public class Table {
     private final int column;
     private ArrayList<Robot> robots;
 
-    public Table(){
+    public Table() {
         this.row = 5;
-        this.column = 5 ;
+        this.column = 5;
         robots = new ArrayList<Robot>();
     }
 
-    public int getRow(){
+    public int getRow() {
         return this.row;
     }
 
@@ -21,26 +21,30 @@ public class Table {
         return this.column;
     }
 
-    public ArrayList<Robot> getRobots(){ 
+    public ArrayList<Robot> getRobots() {
         return this.robots;
     }
 
     /**
-     * Handle the valid command. Tell wether it is the first valid command entered by user. 
-     * If it is the first one, new a robot on the table. If not, execute another method or print error. 
-     * @param indexOfActiveRobot the index of active robot or represent a state of the table.
-     * @param subCommands[] the array of subCommands to the command entered by user.
-    */
+     * Handle the valid command. Tell wether it is the first valid command entered
+     * by user. If it is the first one, new a robot on the table. If not, execute
+     * another method or print error.
+     * 
+     * @param indexOfActiveRobot the index of active robot or represent a state of
+     *                           the table.
+     * @param subCommands[]      the array of subCommands to the command entered by
+     *                           user.
+     */
     public void action(int indexOfActiveRobot, String subCommands[]) {
 
         if (indexOfActiveRobot == -1) {
             this.newRobot(subCommands[1]);
         } else if (indexOfActiveRobot == -2) {
-            System.out.println("There is no active robot on the table."); 
+            System.out.println("There is no active robot on the table.");
         } else {
-            this.handleCommand(indexOfActiveRobot, subCommands);          
+            this.handleCommand(indexOfActiveRobot, subCommands);
         }
-        
+
     }
 
     /**
@@ -82,15 +86,15 @@ public class Table {
 
     /**
      * Report the list of robot and its position
-    */
-    public void handleReport(){
+     */
+    public void handleReport() {
         int robotNum;
         System.out.println("");
         System.out.println("ROBOTS REPORT");
         System.out.println("**********************");
 
-        if(this.robots.size()>0){
-            
+        if (this.robots.size() > 0) {
+
             for (int j = 0; j < this.robots.size(); j++) {
                 robotNum = j + 1;
                 System.out.println("Robot " + robotNum + "'s position is " + this.robots.get(j).getX() + ","
@@ -99,15 +103,16 @@ public class Table {
         } else {
             System.out.println("There is no robot on the table.");
         }
-        
+
         System.out.println("***************************************");
     }
 
     /**
      * Instant a new robot with XY coordinates and direction
+     * 
      * @param the second part of the PLACE command
      */
-    public void newRobot(String position){
+    public void newRobot(String position) {
         int x;
         int y;
         String direction;
@@ -119,6 +124,27 @@ public class Table {
 
         Robot r = new Robot(x, y, direction);
         this.robots.add(r);
+    }
+
+    /**
+     * get index of the active robot on the table
+     * 
+     * @return if there is no robot on the table, return -1; if there is an robot on
+     *         the table, return it's index; if there is one or more robots on the
+     *         table but without active robot, return -2
+     */
+    public int getIndexOfActiveRobot() {
+        if (this.robots.size() == 0) {
+            return -1;
+        } else {
+            for (int i = 0; i < this.robots.size(); i++) {
+                if (this.robots.get(i).getActive() == true) {
+                    return i;
+                }
+            }
+            return -2;
+        }
+
     }
 
 }
